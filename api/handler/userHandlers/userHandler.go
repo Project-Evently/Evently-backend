@@ -38,8 +38,13 @@ func (s *UserHandler) CreateUser(c *gin.Context) {
 		Username:        body.Username,
 		Password:        body.Password,
 		UniqueStudentId: body.UniqueStudentId,
-		EventRegistered: nil,
-		Social:          body.Social,
+		CollegeName:     body.CollegeName,
+		BranchName:      body.BranchName,
+		CurrentYear:     body.CurrentYear,
+		ContactNumber:   body.ContactNumber,
+		Email:           body.Email,
+		GithubId:        body.GithubId,
+		EventRegistered: body.EventRegistered,
 	}
 
 	userId, err := s.Service.CreateUser(user)
@@ -49,4 +54,19 @@ func (s *UserHandler) CreateUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"UserId": userId})
 	return
+}
+
+func (s *UserHandler) UpdatePassword(c *gin.Context) {
+	var body entity.UpdatePassword
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	//var UniqueStudentId = c.Param("uniqueStudentId")
+	err := s.Service.UpdateUserPassword(body.UniqueStudentId, body.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Unexpected error : ": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"Response": "Password updated"})
 }

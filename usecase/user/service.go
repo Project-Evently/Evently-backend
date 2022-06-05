@@ -26,3 +26,11 @@ func (s *Service) CreateUser(user *entity.User) (int, error) {
 	}
 	return userId, nil
 }
+
+func (s *Service) UpdateUserPassword(uniqueStudentId string, newPassword string) error {
+	err := s.repo.UpdatePassword(uniqueStudentId, newPassword)
+	if err != nil {
+		return err
+	}
+	return nil
+}

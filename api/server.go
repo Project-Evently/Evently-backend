@@ -35,5 +35,6 @@ func Server() {
 	r := gin.Default()
 	r.POST("/api/v1/user/create", UserHandler.CreateUser)
 	r.GET("/api/v1/user/:uniqueStudentId", UserHandler.GetUser)
+	r.POST("api/v1/user/updatePassword", UserHandler.UpdatePassword)
 	r.Run(":8080")
 }
