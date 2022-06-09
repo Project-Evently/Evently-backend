@@ -48,7 +48,7 @@ func (s *AdminHandler) CreateInstitute(c *gin.Context) {
 		return
 	}
 	institute := &entity.Institute{
-		InstituteID:   body.InstituteID,
+		//	InstituteID:   body.InstituteID,
 		InstituteName: body.InstituteName,
 		AdminId:       body.AdminId,
 		Password:      body.Password,

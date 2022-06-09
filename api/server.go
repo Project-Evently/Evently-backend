@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 	"github.com/Project-Evently/Evently-backend/api/handler/adminHandlers"
+	"github.com/Project-Evently/Evently-backend/api/handler/eventHandlers"
 	"github.com/Project-Evently/Evently-backend/api/handler/userHandlers"
 	"github.com/Project-Evently/Evently-backend/infrastructure/repository"
 	"github.com/Project-Evently/Evently-backend/usecase/admin"
+	"github.com/Project-Evently/Evently-backend/usecase/event"
 	"github.com/Project-Evently/Evently-backend/usecase/user"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -48,6 +50,10 @@ func Server() {
 	AdminService := admin.NewService(AdminRepo)
 	AdminHandler := adminHandlers.NewAdminHandler(AdminService)
 
+	EventRepo := repository.NewEventDbSql(pool)
+	EventService := event.NewService(EventRepo)
+	EventHandler := eventHandlers.NewEventHandler(EventService)
+
 	address := fmt.Sprintf("0.0.0.0:%v", port)
 	fmt.Printf("%v", address)
 	r := gin.Default()
@@ -60,5 +66,9 @@ func Server() {
 	r.GET("/api/v1/club/list", AdminHandler.GetClubList)
 	r.POST("/api/v1/institute/create", AdminHandler.CreateInstitute)
 	r.POST("/api/v1/club/create", AdminHandler.CreateClub)
+	r.GET("/api/v1/event/:eventId", EventHandler.GetEventById)
+	r.GET("/api/v1/events/institute/:instituteId", EventHandler.GetEventListByInstitute)
+	r.GET("/api/v1/events/club/:clubId", EventHandler.GetEventListByClub)
+	r.POST("/api/v1/events/create", EventHandler.CreateEvent)
 	r.Run(address)
 }

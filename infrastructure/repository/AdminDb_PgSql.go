@@ -25,7 +25,7 @@ func (r *AdminDbSql) ReadInstitute(instituteFullName string) (*entity.Institute,
 		return nil, err
 	}
 	row := tx.QueryRow(context.Background(), "select institute_id, institute_name, admin_id, admin_password from institutions where institute_name = $1", instituteFullName)
-	var instituteID string
+	var instituteID int
 	var instituteName string
 	var adminId string
 	var password string
@@ -114,7 +114,7 @@ func (r *AdminDbSql) ReadInstituteList() ([]*entity.Institute, error) {
 	InstituteList := make([]*entity.Institute, 1)
 
 	var Institute *entity.Institute
-	var instituteID string
+	var instituteID int
 	var instituteName string
 
 	tx, err := r.pool.Begin(context.Background())

@@ -3,7 +3,7 @@ package entity
 type Event struct {
 	EventId        int    `json:"eventId"`
 	ClubId         int    `json:"clubId"`
-	InstituteId    string `json:"instituteId"`
+	InstituteId    int    `json:"instituteId"`
 	Description    string `json:"description"`
 	EventDateIST   string `json:"eventDateIST"`
 	EventTimeIST   string `json:"eventTimeIST"`
